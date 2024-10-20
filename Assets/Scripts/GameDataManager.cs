@@ -7,8 +7,10 @@ public class GameDataManager : Singleton<GameDataManager>
 {
     private const string currentTable = "gde_data";
 
-    private Dictionary<string, GDEFlashCardsData> flashCardsTableData = new();
-    public GDEFlashCardsData GetFlashCardsDat(string key)
+    List<string> allCardKeys = new List<string>();
+
+    private Dictionary<string, GDEFlashCardData> flashCardsTableData = new();
+    public GDEFlashCardData GetFlashCardsData(string key)
     {
         if (key != null && flashCardsTableData.ContainsKey(key))
         {
@@ -39,16 +41,18 @@ public class GameDataManager : Singleton<GameDataManager>
             return;
         }
 
-        foreach (var one in GDEDataManager.GetAllItems<GDEFlashCardsData>())
+        foreach (var one in GDEDataManager.GetAllItems<GDEFlashCardData>())
         {
             flashCardsTableData.Add(one.Key, one);
+
+            allCardKeys.Add(one.Key);
         }
 
     }
 
-    public void ClearGameData()
+    public string GetRandomQuestionKey()
     {
-
+        return allCardKeys.Random();
     }
 
 }

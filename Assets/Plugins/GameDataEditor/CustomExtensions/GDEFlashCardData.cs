@@ -18,7 +18,7 @@ using GameDataEditor;
 
 namespace GameDataEditor
 {
-    public class GDEFlash_CardsData : IGDEData
+    public class GDEFlashCardData : IGDEData
     {
         static string ConceptKey = "Concept";
 		string _Concept;
@@ -62,18 +62,33 @@ namespace GameDataEditor
             }
         }
 
-        public GDEFlash_CardsData(string key) : base(key)
+        static string WordKey = "Word";
+		string _Word;
+        public string Word
+        {
+            get { return _Word; }
+            set {
+                if (_Word != value)
+                {
+                    _Word = value;
+					GDEDataManager.SetString(_key, WordKey, _Word);
+                }
+            }
+        }
+
+        public GDEFlashCardData(string key) : base(key)
         {
             GDEDataManager.RegisterItem(this.SchemaName(), key);
         }
         public override Dictionary<string, object> SaveToDict()
 		{
 			var dict = new Dictionary<string, object>();
-			dict.Add(GDMConstants.SchemaKey, "Flash_Cards");
+			dict.Add(GDMConstants.SchemaKey, "FlashCard");
 			
             dict.Merge(true, Concept.ToGDEDict(ConceptKey));
             dict.Merge(true, Front.ToGDEDict(FrontKey));
             dict.Merge(true, Back.ToGDEDict(BackKey));
+            dict.Merge(true, Word.ToGDEDict(WordKey));
             return dict;
 		}
 
@@ -92,6 +107,7 @@ namespace GameDataEditor
                 dict.TryGetString(ConceptKey, out _Concept);
                 dict.TryGetString(FrontKey, out _Front);
                 dict.TryGetString(BackKey, out _Back);
+                dict.TryGetString(WordKey, out _Word);
                 LoadFromSavedData(dataKey);
 			}
 		}
@@ -103,23 +119,25 @@ namespace GameDataEditor
             _Concept = GDEDataManager.GetString(_key, ConceptKey, _Concept);
             _Front = GDEDataManager.GetString(_key, FrontKey, _Front);
             _Back = GDEDataManager.GetString(_key, BackKey, _Back);
+            _Word = GDEDataManager.GetString(_key, WordKey, _Word);
         }
 
-        public GDEFlash_CardsData ShallowClone()
+        public GDEFlashCardData ShallowClone()
 		{
 			string newKey = Guid.NewGuid().ToString();
-			GDEFlash_CardsData newClone = new GDEFlash_CardsData(newKey);
+			GDEFlashCardData newClone = new GDEFlashCardData(newKey);
 
             newClone.Concept = Concept;
             newClone.Front = Front;
             newClone.Back = Back;
+            newClone.Word = Word;
 
             return newClone;
 		}
 
-        public GDEFlash_CardsData DeepClone()
+        public GDEFlashCardData DeepClone()
 		{
-			GDEFlash_CardsData newClone = ShallowClone();
+			GDEFlashCardData newClone = ShallowClone();
             return newClone;
 		}
 
@@ -150,6 +168,15 @@ namespace GameDataEditor
             dict.TryGetString(BackKey, out _Back);
         }
 
+        public void Reset_Word()
+        {
+            GDEDataManager.ResetToDefault(_key, WordKey);
+
+            Dictionary<string, object> dict;
+            GDEDataManager.Get(_key, out dict);
+            dict.TryGetString(WordKey, out _Word);
+        }
+
         public void ResetAll()
         {
              #if !UNITY_WEBPLAYER
@@ -159,6 +186,7 @@ namespace GameDataEditor
             GDEDataManager.ResetToDefault(_key, ConceptKey);
             GDEDataManager.ResetToDefault(_key, FrontKey);
             GDEDataManager.ResetToDefault(_key, BackKey);
+            GDEDataManager.ResetToDefault(_key, WordKey);
 
 
             #endif
