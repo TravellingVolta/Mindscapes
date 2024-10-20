@@ -15,6 +15,6 @@ namespace GameDataEditor
 {
     public partial class GDESchemaKeys
     {
-        public static string Flash_Cards = "Flash_Cards";
+        public static string FlashCards = "FlashCards";
     }
 }
