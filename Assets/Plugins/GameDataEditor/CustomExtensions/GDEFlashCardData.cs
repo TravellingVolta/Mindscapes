@@ -20,58 +20,58 @@ namespace GameDataEditor
 {
     public class GDEFlashCardData : IGDEData
     {
-        static string ConceptKey = "Concept";
-		string _Concept;
-        public string Concept
+        static string QuestionTipKey = "QuestionTip";
+		string _QuestionTip;
+        public string QuestionTip
         {
-            get { return _Concept; }
+            get { return _QuestionTip; }
             set {
-                if (_Concept != value)
+                if (_QuestionTip != value)
                 {
-                    _Concept = value;
-					GDEDataManager.SetString(_key, ConceptKey, _Concept);
+                    _QuestionTip = value;
+					GDEDataManager.SetString(_key, QuestionTipKey, _QuestionTip);
                 }
             }
         }
 
-        static string FrontKey = "Front";
-		string _Front;
-        public string Front
+        static string QuestionKey = "Question";
+		string _Question;
+        public string Question
         {
-            get { return _Front; }
+            get { return _Question; }
             set {
-                if (_Front != value)
+                if (_Question != value)
                 {
-                    _Front = value;
-					GDEDataManager.SetString(_key, FrontKey, _Front);
+                    _Question = value;
+					GDEDataManager.SetString(_key, QuestionKey, _Question);
                 }
             }
         }
 
-        static string BackKey = "Back";
-		string _Back;
-        public string Back
+        static string AnswerKey = "Answer";
+		string _Answer;
+        public string Answer
         {
-            get { return _Back; }
+            get { return _Answer; }
             set {
-                if (_Back != value)
+                if (_Answer != value)
                 {
-                    _Back = value;
-					GDEDataManager.SetString(_key, BackKey, _Back);
+                    _Answer = value;
+					GDEDataManager.SetString(_key, AnswerKey, _Answer);
                 }
             }
         }
 
-        static string WordKey = "Word";
-		string _Word;
-        public string Word
+        static string AnswerTipKey = "AnswerTip";
+		string _AnswerTip;
+        public string AnswerTip
         {
-            get { return _Word; }
+            get { return _AnswerTip; }
             set {
-                if (_Word != value)
+                if (_AnswerTip != value)
                 {
-                    _Word = value;
-					GDEDataManager.SetString(_key, WordKey, _Word);
+                    _AnswerTip = value;
+					GDEDataManager.SetString(_key, AnswerTipKey, _AnswerTip);
                 }
             }
         }
@@ -85,10 +85,10 @@ namespace GameDataEditor
 			var dict = new Dictionary<string, object>();
 			dict.Add(GDMConstants.SchemaKey, "FlashCard");
 			
-            dict.Merge(true, Concept.ToGDEDict(ConceptKey));
-            dict.Merge(true, Front.ToGDEDict(FrontKey));
-            dict.Merge(true, Back.ToGDEDict(BackKey));
-            dict.Merge(true, Word.ToGDEDict(WordKey));
+            dict.Merge(true, QuestionTip.ToGDEDict(QuestionTipKey));
+            dict.Merge(true, Question.ToGDEDict(QuestionKey));
+            dict.Merge(true, Answer.ToGDEDict(AnswerKey));
+            dict.Merge(true, AnswerTip.ToGDEDict(AnswerTipKey));
             return dict;
 		}
 
@@ -104,10 +104,10 @@ namespace GameDataEditor
 				LoadFromSavedData(dataKey);
 			else
 			{
-                dict.TryGetString(ConceptKey, out _Concept);
-                dict.TryGetString(FrontKey, out _Front);
-                dict.TryGetString(BackKey, out _Back);
-                dict.TryGetString(WordKey, out _Word);
+                dict.TryGetString(QuestionTipKey, out _QuestionTip);
+                dict.TryGetString(QuestionKey, out _Question);
+                dict.TryGetString(AnswerKey, out _Answer);
+                dict.TryGetString(AnswerTipKey, out _AnswerTip);
                 LoadFromSavedData(dataKey);
 			}
 		}
@@ -116,10 +116,10 @@ namespace GameDataEditor
 		{
 			_key = dataKey;
 			
-            _Concept = GDEDataManager.GetString(_key, ConceptKey, _Concept);
-            _Front = GDEDataManager.GetString(_key, FrontKey, _Front);
-            _Back = GDEDataManager.GetString(_key, BackKey, _Back);
-            _Word = GDEDataManager.GetString(_key, WordKey, _Word);
+            _QuestionTip = GDEDataManager.GetString(_key, QuestionTipKey, _QuestionTip);
+            _Question = GDEDataManager.GetString(_key, QuestionKey, _Question);
+            _Answer = GDEDataManager.GetString(_key, AnswerKey, _Answer);
+            _AnswerTip = GDEDataManager.GetString(_key, AnswerTipKey, _AnswerTip);
         }
 
         public GDEFlashCardData ShallowClone()
@@ -127,10 +127,10 @@ namespace GameDataEditor
 			string newKey = Guid.NewGuid().ToString();
 			GDEFlashCardData newClone = new GDEFlashCardData(newKey);
 
-            newClone.Concept = Concept;
-            newClone.Front = Front;
-            newClone.Back = Back;
-            newClone.Word = Word;
+            newClone.QuestionTip = QuestionTip;
+            newClone.Question = Question;
+            newClone.Answer = Answer;
+            newClone.AnswerTip = AnswerTip;
 
             return newClone;
 		}
@@ -141,40 +141,40 @@ namespace GameDataEditor
             return newClone;
 		}
 
-        public void Reset_Concept()
+        public void Reset_QuestionTip()
         {
-            GDEDataManager.ResetToDefault(_key, ConceptKey);
+            GDEDataManager.ResetToDefault(_key, QuestionTipKey);
 
             Dictionary<string, object> dict;
             GDEDataManager.Get(_key, out dict);
-            dict.TryGetString(ConceptKey, out _Concept);
+            dict.TryGetString(QuestionTipKey, out _QuestionTip);
         }
 
-        public void Reset_Front()
+        public void Reset_Question()
         {
-            GDEDataManager.ResetToDefault(_key, FrontKey);
+            GDEDataManager.ResetToDefault(_key, QuestionKey);
 
             Dictionary<string, object> dict;
             GDEDataManager.Get(_key, out dict);
-            dict.TryGetString(FrontKey, out _Front);
+            dict.TryGetString(QuestionKey, out _Question);
         }
 
-        public void Reset_Back()
+        public void Reset_Answer()
         {
-            GDEDataManager.ResetToDefault(_key, BackKey);
+            GDEDataManager.ResetToDefault(_key, AnswerKey);
 
             Dictionary<string, object> dict;
             GDEDataManager.Get(_key, out dict);
-            dict.TryGetString(BackKey, out _Back);
+            dict.TryGetString(AnswerKey, out _Answer);
         }
 
-        public void Reset_Word()
+        public void Reset_AnswerTip()
         {
-            GDEDataManager.ResetToDefault(_key, WordKey);
+            GDEDataManager.ResetToDefault(_key, AnswerTipKey);
 
             Dictionary<string, object> dict;
             GDEDataManager.Get(_key, out dict);
-            dict.TryGetString(WordKey, out _Word);
+            dict.TryGetString(AnswerTipKey, out _AnswerTip);
         }
 
         public void ResetAll()
@@ -183,10 +183,10 @@ namespace GameDataEditor
              GDEDataManager.DeregisterItem(this.SchemaName(), _key);
              #else
 
-            GDEDataManager.ResetToDefault(_key, ConceptKey);
-            GDEDataManager.ResetToDefault(_key, FrontKey);
-            GDEDataManager.ResetToDefault(_key, BackKey);
-            GDEDataManager.ResetToDefault(_key, WordKey);
+            GDEDataManager.ResetToDefault(_key, QuestionTipKey);
+            GDEDataManager.ResetToDefault(_key, QuestionKey);
+            GDEDataManager.ResetToDefault(_key, AnswerKey);
+            GDEDataManager.ResetToDefault(_key, AnswerTipKey);
 
 
             #endif
